@@ -1,13 +1,26 @@
-// You need to complete this program for a part of your first project.
+/*  
+	Jaron Smith, Spring 2020, Algorithms
+	4203199
+*/
+
 
 // Standard libraries
 #include <string>
 #include <iostream>
 #include <stdlib.h> 
-
-
+#include <fstream>
+#include <ctime>
 // 'BigIntegerLibrary.hh' includes all of the library headers.
 #include "BigIntegerLibrary.hh"
+
+
+void generate_prime(BigUnsigned &, const int);
+void new_random(BigUnsigned &, int);
+void store_values(const BigUnsigned &, const BigUnsigned &, const char[]);
+void generate_e(const BigUnsigned &, BigUnsigned &);
+void display_value(const BigUnsigned &, const char[]);
+
+
 
 int main(){
 	/* The library throws 'const char *' error messages when things go
