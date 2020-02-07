@@ -86,6 +86,17 @@ int main(){
 
 void generate_prime(BigUnsigned &, const int);
 void new_random(BigUnsigned &, int);
-void store_values(const BigUnsigned &, const BigUnsigned &, const char[]);
+void store_values(const BigUnsigned &a, const BigUnsigned &b, const char file[])
+{
+	std::ofstream output;
+	output.open((file);
+	output << a << "\n";
+	output << b;
+	output.close();
+}
 void generate_e(const BigUnsigned &, BigUnsigned &);
-void display_value(const BigUnsigned &, const char[]);
+void display_value(const BigUnsigned &a, const char var[])
+{
+	std::cout << "The value of " << var << "is:: \n"<<
+			  << value << std::endl;
+}
