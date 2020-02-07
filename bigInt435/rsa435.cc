@@ -94,7 +94,13 @@ void store_values(const BigUnsigned &a, const BigUnsigned &b, const char file[])
 	output << b;
 	output.close();
 }
-void generate_e(const BigUnsigned &, BigUnsigned &);
+void generate_e(const BigUnsigned &phi_n, BigUnsigned &e)
+{
+	while((gcd(phi_n, e) !=1) && (e < phi_n))
+	{
+		++e;
+	}
+}
 void display_value(const BigUnsigned &a, const char var[])
 {
 	std::cout << "The value of " << var << "is:: \n"<<
