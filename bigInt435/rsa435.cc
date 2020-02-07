@@ -23,11 +23,39 @@ void display_value(const BigUnsigned &, const char[]);
 
 
 int main(){
-	/* The library throws 'const char *' error messages when things go
-	 * wrong.  It's a good idea to catch them using a 'try' block like this
-	 * one.  Your C++ compiler might need a command-line option to compile
-	 * code that uses exceptions. */
-	try {
+
+	//seed random generator
+	unsigned seed = time(0);
+	srand(seed);
+	size_of_prime = 512;
+	//generate p val
+	BigUnsigned p = BigUnsigned(1);
+	generate_prime(p, size_of_prime);
+
+	BigUnsigned q = BigUnsigned(1);
+	generate_prime(q, size_of_prime);
+
+	display_value(p, "p");
+	display_value(q, "q");
+	store_values(p, q, "p_q.txt");
+
+	BigUnsigned n = p * q;
+	display_value(n, 'n');
+	BigUnsigned phi_n = (p-1) * (q-1);
+	display_value(phi_n, "phi of n");
+
+	BigUnsigned e = 13;
+	generate_e(phi_n, e);
+	store_values(e, n, "e_n.txt");
+	display_value(e, "e");
+	BigUnsigned d = modinv(e, phi_n);
+	display_value(d, "d");
+
+	store_values(d, n, "d_n.txt");
+
+
+
+	/*try {
 		      
       std::cout << "a couple of test cases for 3460:435/535 Algorithms!!!\n";
       BigUnsigned big1 = BigUnsigned(1);
@@ -51,7 +79,13 @@ int main(){
 	} catch(char const* err) {
 		std::cout << "The library threw an exception:\n"
 			<< err << std::endl;
-	}
+	}*/
 
 	return 0;
 }
+
+void generate_prime(BigUnsigned &, const int);
+void new_random(BigUnsigned &, int);
+void store_values(const BigUnsigned &, const BigUnsigned &, const char[]);
+void generate_e(const BigUnsigned &, BigUnsigned &);
+void display_value(const BigUnsigned &, const char[]);
