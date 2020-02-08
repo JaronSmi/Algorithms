@@ -14,10 +14,10 @@
 #include "BigIntegerLibrary.hh"
 
 
-BigUnsigned& generate_prime(const int);
+BigUnsigned& generate_prime(BigUnsigned&, const int);
 BigUnsigned& new_random(BigUnsigned &, int);
 void store_values(const BigUnsigned &, const BigUnsigned &, const char[]);
-BigUnsigned& generate_e(const BigUnsigned &);
+BigUnsigned& generate_e(const BigUnsigned &, BigUnsigned&);
 void display_value(const BigUnsigned &, const char[]);
 
 
@@ -29,9 +29,11 @@ int main(){
 	srand(seed);
 	int size_of_prime = 512;
 	//generate p val
-	BigUnsigned p = generate_prime(size_of_prime);
+	BigUnsigned p_candidate = BigUnsigned(1);
+	BigUnsigned p = generate_prime(p_candidate, size_of_prime);
 
-	BigUnsigned q =	generate_prime(size_of_prime);
+	BigUnsigned q_candidate = BigUnsigned(1);
+	BigUnsigned q =	generate_prime(q_candidate, size_of_prime);
 
 	display_value(p, "p");
 	display_value(q, "q");
@@ -42,7 +44,8 @@ int main(){
 	BigUnsigned phi_n = (p-1) * (q-1);
 	display_value(phi_n, "phi of n");
 
-	BigUnsigned e =	generate_e(phi_n);
+	BigUnsigned e_candidate = 5;
+	BigUnsigned e =	generate_e(phi_n, e_candidate);
 	store_values(e, n, "e_n.txt");
 	display_value(e, "e");
 	BigUnsigned d = modinv(e, phi_n);
@@ -53,12 +56,11 @@ int main(){
 	return 0;
 }
 
-BigUnsigned& generate_prime(const int size){
+BigUnsigned& generate_prime(BigUnsigned &candidate, const int size){
       std::cout << "Generating prime of size " << size << " bits...\n";
       BigUnsigned exponent;
       BigUnsigned base;
       BigUnsigned a = BigUnsigned(1);
-      BigUnsigned candidate = BigUnsigned(1);
       BigUnsigned result;
       bool isprime = false;
       // Iterate until a valid prime is generated
@@ -116,12 +118,11 @@ void store_values(const BigUnsigned &a, const BigUnsigned &b, const char file[])
 		output << b;
 		output.close();
 	}
-BigUnsigned& generate_e(const BigUnsigned &phi_n)
+BigUnsigned& generate_e(const BigUnsigned &phi_n, BigUnsigned &e)
 {
-	BigUnsigned e = 5;
 	while((gcd(phi_n, e) !=1) && (e < phi_n))
 	{
-		++e;
+		e+=2;
 	}
 	return e;
 }
