@@ -66,11 +66,9 @@ BigUnsigned& generate_prime(BigUnsigned &candidate, const int size){
       // Iterate until a valid prime is generated
       while (!isprime)
       {
-      	std::cout<< "Hello \n";
             do
             {
                   candidate = new_random(candidate, size);
-                  std::cout << "new canidate found";
             } while (candidate % 2 == 0);
             // Conduct fermat test  with 3 different a values
             exponent = candidate - 1;
