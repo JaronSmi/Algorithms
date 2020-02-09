@@ -1,5 +1,5 @@
 /***
-   prepared for CS435 Project 1 part 2
+   Jaron Smith 4203199
 **/
 
 #include <string.h>
@@ -11,18 +11,6 @@
  
 int main(int argc, char *argv[])
 {
-   //demonstrating how sha256 works
-   std::string input = "testing";
-   std::string output1 = sha256(input);
-   std::cout << "sha256('"<< input << "'):" << output1 << "\n";
-   
-   //demo bigInt works here
-   BigUnsigned a = stringToBigUnsigned("124338907642982722929222542626327282");
-   BigUnsigned b = stringToBigUnsigned("124338907642977775546469426263278643");
-   std::cout << "big a = " <<a<<"\n";
-   std::cout << "big b = " <<b<<"\n";
-   std::cout << "big a*b = " <<a*b<<"\n";
-
    //Second part of your project starts here
    if (argc != 3 || (argv[1][0]!='s' && argv[1][0]!='v')) 
       std::cout << "wrong format! should be \"a.exe s filename\"";
@@ -37,7 +25,7 @@ int main(int argc, char *argv[])
       myfile.seekg (0, std::ios::end);
       end = myfile.tellg();
       std::streampos size = end-begin;
-      //std::cout << "size of the file: " << size << " bytes.\n"; //size of the file
+      std::cout << "size of the file: " << size << " bytes.\n"; //size of the file
       
       myfile.seekg (0, std::ios::beg);
       char * memblock = new char[size];
@@ -49,17 +37,68 @@ int main(int argc, char *argv[])
       myfile2.write (memblock, size); //write to a file
       myfile2.close();
       
-      //std::cout<<memblock;
+      std::cout<<memblock;
         
       if (argv[1][0]=='s') {
          std::cout << "\n"<<"Need to sign the doc.\n";
-         //.....
+         std::string content_hash = sha256(memblock);
+         BigUnsignedInABase hash(content_hash, 16);
+         BigUnsigned hash_convert = hash;
+         std::ifstream dn_file;
+         dn_file.open(d_n.txt);
+         std::string d_string, n_string;
+         dn_file >> d_string;
+         dn_file >> n_string;
+         dn_file.close();
+
+         BigUnsigned d = stringToBigUnsigned(d_string);
+         BigUnsigned n = stringToBigUnsigned(n_string);
+
+         BigUnsigned signature = modexp(hash_convert, d, n);
+
+         std::ofstream sign;
+         sign.open(filename+".signature");
+         sign << signature << std::endl;
+         sign.close();
          
       }
       else {
          std::cout << "\n"<<"Need to verify the doc.\n";
-         //.....
-         
+         std::string sign_file = argv[3];
+         std::string content_hash = sha256(memblock);
+         BigUnsignedInABase hash(content_hash, 16);
+         BigUnsigned hash_convert = hash;
+         std::ifstream sign;
+         sign.open(sign_file);
+         std::string signature;
+         sign >> signature;
+         sign.close();
+
+         BigUnsigned sign_convert = stringToBigUnsigned(signature);
+
+         std::ifstream en_file;
+         en_file.open("e_n.txt");
+         std::e_string;
+         std::n_string;
+         en_file >> e_string;
+         en_file >> n_string;
+         en_file.close();
+
+         BigUnsigned e = stringToBigUnsigned(e_string);
+         BigUnsigned n = stringToBigUnsigned(n_string);
+
+
+         BigUnsigned encrypt = modexp(sign_convert, e, n);
+         if(encrypt == hash_convert)
+         {
+         	std::cout << "Document is authentic." << std::endl;
+         }
+
+         else
+         {
+         	std::cout << "Document has been altered." << std::endl; 
+         }
+  
       }
       delete[] memblock;
     }
