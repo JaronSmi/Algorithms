@@ -93,6 +93,7 @@ BigUnsigned& generate_prime(BigUnsigned &candidate, const int size){
                   }
             }
       }
+      return candidate;
 }
 
 BigUnsigned& new_random(BigUnsigned & candidate, int size)
@@ -126,6 +127,6 @@ BigUnsigned& generate_e(const BigUnsigned &phi_n, BigUnsigned &e)
 }
 void display_value(const BigUnsigned &a, const char var[])
 {
-	std::cout << "The value of " << var << "is:: \n"
+	std::cout << "The value of " << var << " is:: \n"
 			  << a << std::endl;
 }
