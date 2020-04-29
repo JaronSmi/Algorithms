@@ -22,3 +22,11 @@ void process_image_seams(int** &, int &, int &);
 void output_processed_pgm(int** const &, const int, const int, const int, const std::string &);
 void clockwise_ninety(int** &, int &, int &);
 void counter_clockwise_ninety(int** &, int &, int &);
+
+int main(int argc, char *argv[]){
+	//check for 4 args
+	if(argc){
+		std::cout << "Wrong number of arguments entered. 4 are required.\n";
+		return 0;
+	}
+}
