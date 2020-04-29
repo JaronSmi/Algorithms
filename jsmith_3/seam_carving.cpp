@@ -29,4 +29,12 @@ int main(int argc, char *argv[]){
 		std::cout << "Wrong number of arguments entered. 4 are required.\n";
 		return 0;
 	}
+
+	int vertical_to_remove = std::atoi(argv[2]);
+	int horizontal_to_remove = std::atoi(argv[3]);
+	//checks that x & y dimensions are non-neg
+	if(vertical_to_remove < 0 || horizontal_to_remove < 0){
+		std::cout << "ERROR: Invalid Arguments \n";
+		return 0;
+	}
 }
